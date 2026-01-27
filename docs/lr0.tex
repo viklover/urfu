@@ -1,14 +1,21 @@
 \documentclass[a4paper,12pt]{article}
 \usepackage[utf8]{inputenc}
 \usepackage[T2A]{fontenc}
-\usepackage[russian]{babel}
 \usepackage{geometry}
 \usepackage{setspace}
 \usepackage{indentfirst}
 \usepackage{fancyhdr}
 \usepackage{lastpage}
 \usepackage{fontspec} 
-\setmainfont[Ligatures={TeX,Historic}]{Times New Roman}
+\usepackage{times}
+
+\setmainfont{Times New Roman}[
+    Path = ./fonts/,
+    UprightFont = times.ttf,
+    BoldFont = timesbd.ttf,
+    ItalicFont = timesi.ttf,
+    BoldItalicFont = timesbi.ttf
+]
 
 % Поля как в Word
 \geometry{

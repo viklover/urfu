@@ -39,3 +39,4 @@ bin/
 *.fdb_latexmk
 *.fls
 svg-inkscape/
+*.synctex.gz
