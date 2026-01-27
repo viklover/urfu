@@ -1,0 +1,101 @@
+\documentclass[a4paper,12pt]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[T2A]{fontenc}
+\usepackage[russian]{babel}
+\usepackage{geometry}
+\usepackage{setspace}
+\usepackage{indentfirst}
+\usepackage{fancyhdr}
+\usepackage{lastpage}
+\usepackage{fontspec} 
+\setmainfont[Ligatures={TeX,Historic}]{Times New Roman}
+
+% Поля как в Word
+\geometry{
+    left=3cm,
+    right=2cm,
+    top=2cm,
+    bottom=2cm,
+    headheight=15pt
+}
+
+% Полуторный межстрочный
+\onehalfspacing
+
+% Красная строка
+\setlength{\parindent}{1.25cm}
+
+% Колонтитулы
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[C]{\small Заголовок документа}
+\fancyfoot[C]{\small Страница \thepage\ из \pageref{LastPage}}
+
+\begin{document}
+
+\begin{center}
+    \LARGE\textbf{НАЗВАНИЕ ДОКУМЕНТА}
+    
+    \vspace{0.5cm}
+    
+    \large Подзаголовок или описание
+    
+    \vspace{1cm}
+\end{center}
+
+\section{Введение}
+
+Это типичный документ в стиле Microsoft Word. Текст автоматически выравнивается по ширине, есть красные строки, колонтитулы и привычное форматирование.
+
+Основные преимущества такого подхода:
+\begin{itemize}
+    \item Профессиональный внешний вид
+    \item Автоматическая нумерация
+    \item Согласованность стиля
+    \item Качественная верстка
+\end{itemize}
+
+\section{Основная часть}
+
+\subsection{Структура документа}
+
+Документы в LaTeX, как и в Word, имеют иерархическую структуру:
+
+\subsubsection{Подподраздел}
+
+Можно создавать несколько уровней вложенности.
+
+\subsection{Формулы}
+
+Математические формулы выглядят красиво: $E = mc^2$ или:
+
+\[
+\int_{a}^{b} f(x) \, dx = F(b) - F(a)
+\]
+
+\section{Таблицы}
+
+\begin{center}
+\begin{tabular}{|l|c|r|}
+    \hline
+    \textbf{Заголовок 1} & \textbf{Заголовок 2} & \textbf{Заголовок 3} \\
+    \hline
+    Левое выравнивание & По центру & Правое выравнивание \\
+    \hline
+    Данные 1 & 123.45 & 100 \\
+    Данные 2 & 67.89 & 200 \\
+    \hline
+\end{tabular}
+\end{center}
+
+\section{Заключение}
+
+Этот документ выглядит почти как созданный в Word, но обладает всеми преимуществами LaTeX: стабильность, контроль версий, математические возможности.
+
+\begin{flushright}
+    \textit{Автор документа}
+    
+    \today
+\end{flushright}
+
+\end{document}
