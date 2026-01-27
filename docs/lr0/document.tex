@@ -1,0 +1,55 @@
+\documentclass[a4paper]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[T2A]{fontenc}
+\usepackage[russian]{babel}
+\usepackage{geometry}
+\usepackage{amsmath}
+\usepackage{graphicx}
+\usepackage{titlesec}
+
+\geometry{
+    a4paper,
+    left=25mm,
+    right=15mm,
+    top=20mm,
+    bottom=20mm
+}
+
+\title{Тестовый документ формата A4}
+\author{LaTeX}
+\date{\today}
+
+\begin{document}
+
+\maketitle
+
+\section*{Пример надписи}
+
+\begin{center}
+    \Huge\textbf{Это тестовый документ формата A4}
+    
+    \vspace{1cm}
+    
+    \Large Создан в LaTeX
+    
+    \vspace{1cm}
+    
+    \begin{tabular}{|c|c|c|}
+        \hline
+        Параметр & Значение & Единица измерения \\
+        \hline
+        Ширина & 210 & мм \\
+        Высота & 297 & мм \\
+        Плотность бумаги & 80 & г/м² \\
+        \hline
+    \end{tabular}
+\end{center}
+
+\vspace{2cm}
+
+\begin{flushright}
+    \textit{Документ создан автоматически}\\
+    \textsc{LaTeX Generator}
+\end{flushright}
+
+\end{document}
