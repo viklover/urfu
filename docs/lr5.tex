@@ -1,0 +1,336 @@
+\documentclass[12pt,a4paper]{extarticle}
+\input{configs/title.tex}
+\usepackage{listings}
+\usepackage{xcolor}
+
+\lstset{
+    basicstyle=\ttfamily\small,
+    keywordstyle=\color{blue},
+    commentstyle=\color{gray},
+    stringstyle=\color{red},
+    frame=single,
+    breaklines=true,
+    showstringspaces=false
+}
+
+\begin{document}
+
+\maketitlepage{5}
+
+% Оглавление
+\tableofcontents
+\newpage
+
+% Разделы
+\section{Цель работы}
+\normalfont Освоить основы объектно-ориентированного программирования в Java: создание классов, работу с полями и методами, инкапсуляцию, перегрузку конструкторов и методов.
+
+\section{Описание задачи}
+
+Реализовать 6 программ в пакете lr5, демонстрирующих создание пользовательских классов с различной функциональностью.
+
+\begin{enumerate}
+    \item Класс с закрытым символьным полем и методами доступа
+    \item Класс для вывода диапазона символов
+    \item Класс с перегруженными конструкторами
+    \item Класс с конструктором, разбирающим число типа double
+    \item Класс с ограничением значения поля
+    \item Класс с полями min и max
+\end{enumerate}
+
+\section{Ход выполнения}
+
+\subsection{Задание 1: Класс с символьным полем}
+
+Класс CharHolder содержит закрытое символьное поле и три метода: setValue для присваивания значения, getCode для получения кода символа и print для вывода символа и его кода.
+
+\begin{lstlisting}[language=Java]
+package lr5;
+
+public class Task1 {
+    static class CharHolder {
+        private char symbol;
+
+        public void setValue(char c) {
+            symbol = c;
+        }
+
+        public int getCode() {
+            return (int) symbol;
+        }
+
+        public void print() {
+            System.out.println("Symbol: " + symbol
+                + ", Code: " + (int) symbol);
+        }
+    }
+
+    public static void main(String[] args) {
+        CharHolder holder = new CharHolder();
+        holder.setValue('A');
+        System.out.println("Code of symbol: " + holder.getCode());
+        holder.print();
+        holder.setValue('Z');
+        holder.print();
+    }
+}
+\end{lstlisting}
+
+\subsection{Задание 2: Диапазон символов}
+
+Класс CharRange содержит два символьных поля и метод printRange, который выводит все символы между значениями полей включительно.
+
+\begin{lstlisting}[language=Java]
+package lr5;
+
+public class Task2 {
+    static class CharRange {
+        public char start;
+        public char end;
+
+        public void printRange() {
+            char from = (start < end) ? start : end;
+            char to = (start < end) ? end : start;
+            System.out.print("Symbols from '" + from
+                + "' to '" + to + "': ");
+            for (char c = from; c <= to; c++) {
+                System.out.print(c + " ");
+            }
+            System.out.println();
+        }
+    }
+
+    public static void main(String[] args) {
+        CharRange range = new CharRange();
+        range.start = 'A';
+        range.end = 'D';
+        range.printRange();
+        range.start = 'Z';
+        range.end = 'T';
+        range.printRange();
+    }
+}
+\end{lstlisting}
+
+\subsection{Задание 3: Перегрузка конструкторов}
+
+Класс TwoIntegers имеет два целочисленных поля и три конструктора: без аргументов, с одним аргументом и с двумя аргументами.
+
+\begin{lstlisting}[language=Java]
+package lr5;
+
+public class Task3 {
+    static class TwoIntegers {
+        public int a;
+        public int b;
+
+        public TwoIntegers() {
+            a = 0;
+            b = 0;
+        }
+
+        public TwoIntegers(int value) {
+            a = value;
+            b = value;
+        }
+
+        public TwoIntegers(int first, int second) {
+            a = first;
+            b = second;
+        }
+
+        public void print() {
+            System.out.println("a = " + a + ", b = " + b);
+        }
+    }
+
+    public static void main(String[] args) {
+        TwoIntegers obj1 = new TwoIntegers();
+        System.out.print("No arguments: ");
+        obj1.print();
+        TwoIntegers obj2 = new TwoIntegers(5);
+        System.out.print("One argument (5): ");
+        obj2.print();
+        TwoIntegers obj3 = new TwoIntegers(10, 20);
+        System.out.print("Two arguments (10, 20): ");
+        obj3.print();
+    }
+}
+\end{lstlisting}
+
+\subsection{Задание 4: Разбор числа double}
+
+Класс CharAndInt имеет символьное и целочисленное поле. Конструктор с аргументом double извлекает целую часть как код символа, а дробную часть (десятые и сотые) как целочисленное значение.
+
+\begin{lstlisting}[language=Java]
+package lr5;
+
+public class Task4 {
+    static class CharAndInt {
+        public char symbol;
+        public int number;
+
+        public CharAndInt(int code, char c) {
+            symbol = c;
+            number = code;
+        }
+
+        public CharAndInt(double value) {
+            int intPart = (int) value;
+            symbol = (char) intPart;
+            double fractional = value - intPart;
+            number = (int) (fractional * 100);
+        }
+
+        public void print() {
+            System.out.println("Symbol: " + symbol
+                + ", Number: " + number);
+        }
+    }
+
+    public static void main(String[] args) {
+        CharAndInt obj1 = new CharAndInt(100, 'X');
+        System.out.print("Constructor (int, char): ");
+        obj1.print();
+        CharAndInt obj2 = new CharAndInt(65.1267);
+        System.out.print("Constructor (65.1267): ");
+        obj2.print();
+        CharAndInt obj3 = new CharAndInt(66.9915);
+        System.out.print("Constructor (66.9915): ");
+        obj3.print();
+    }
+}
+\end{lstlisting}
+
+\subsection{Задание 5: Ограничение значения поля}
+
+Класс LimitedInt содержит закрытое целочисленное поле. Методы setValue перегружены: без аргументов присваивает 0, с аргументом — ограничивает значение сверху числом 100.
+
+\begin{lstlisting}[language=Java]
+package lr5;
+
+public class Task5 {
+    static class LimitedInt {
+        private int value;
+
+        public LimitedInt() {
+            value = 0;
+        }
+
+        public LimitedInt(int val) {
+            setValue(val);
+        }
+
+        public void setValue() {
+            value = 0;
+        }
+
+        public void setValue(int val) {
+            if (val > 100) {
+                value = 100;
+            } else {
+                value = val;
+            }
+        }
+
+        public int getValue() {
+            return value;
+        }
+    }
+
+    public static void main(String[] args) {
+        LimitedInt obj1 = new LimitedInt();
+        System.out.println("Default constructor: " + obj1.getValue());
+        LimitedInt obj2 = new LimitedInt(50);
+        System.out.println("Constructor with 50: " + obj2.getValue());
+        LimitedInt obj3 = new LimitedInt(150);
+        System.out.println("Constructor with 150: " + obj3.getValue());
+        obj1.setValue(75);
+        System.out.println("After setValue(75): " + obj1.getValue());
+        obj1.setValue(200);
+        System.out.println("After setValue(200): " + obj1.getValue());
+        obj1.setValue();
+        System.out.println("After setValue(): " + obj1.getValue());
+    }
+}
+\end{lstlisting}
+
+\subsection{Задание 6: Поля min и max}
+
+Класс MinMax содержит два закрытых поля min и max. Метод setValues обновляет поля так, чтобы min всегда содержало минимальное, а max — максимальное из всех переданных значений.
+
+\begin{lstlisting}[language=Java]
+package lr5;
+
+public class Task6 {
+    static class MinMax {
+        private int min;
+        private int max;
+
+        public MinMax() {
+            min = 0;
+            max = 0;
+        }
+
+        public MinMax(int a) {
+            min = a;
+            max = a;
+        }
+
+        public MinMax(int a, int b) {
+            setValues(a, b);
+        }
+
+        public void setValues(int a) {
+            updateMinMax(a);
+        }
+
+        public void setValues(int a, int b) {
+            updateMinMax(a);
+            updateMinMax(b);
+        }
+
+        private void updateMinMax(int value) {
+            if (value < min) {
+                min = value;
+            }
+            if (value > max) {
+                max = value;
+            }
+        }
+
+        public void print() {
+            System.out.println("min = " + min + ", max = " + max);
+        }
+    }
+
+    public static void main(String[] args) {
+        MinMax obj1 = new MinMax(5, 10);
+        System.out.print("Constructor (5, 10): ");
+        obj1.print();
+        obj1.setValues(3);
+        System.out.print("After setValues(3): ");
+        obj1.print();
+        obj1.setValues(15, 1);
+        System.out.print("After setValues(15, 1): ");
+        obj1.print();
+        MinMax obj2 = new MinMax(50);
+        System.out.print("Constructor (50): ");
+        obj2.print();
+    }
+}
+\end{lstlisting}
+
+\section{Ссылка на GitHub-репозиторий}
+
+Исходный код лабораторной работы доступен по ссылке:
+
+\url{https://github.com/viklover/urfu}
+
+Файлы классов расположены в директории \texttt{src/lr5/}.
+
+\section{Вывод}
+
+В ходе лабораторной работы были реализованы программы, демонстрирующие основы ООП в Java. Освоены навыки создания классов с полями и методами, инкапсуляции данных с помощью модификатора private, перегрузки конструкторов и методов. Цель работы достигнута.
+
+\end{document}
