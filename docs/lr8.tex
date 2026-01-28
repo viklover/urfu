@@ -1,0 +1,222 @@
+\documentclass[12pt,a4paper]{extarticle}
+\input{configs/title.tex}
+\usepackage{listings}
+\usepackage{xcolor}
+
+\lstset{
+    basicstyle=\ttfamily\small,
+    keywordstyle=\color{blue},
+    commentstyle=\color{gray},
+    stringstyle=\color{red},
+    frame=single,
+    breaklines=true,
+    showstringspaces=false
+}
+
+\begin{document}
+
+\maketitlepage{8}
+
+% Оглавление
+\tableofcontents
+\newpage
+
+% Разделы
+\section{Цель работы}
+\normalfont Получение навыков работы с каталогами и файлами операционной системы, а также с классами ввода/вывода, получение навыков ввода/вывода данных файла через символьные потоки.
+
+\section{Описание задачи}
+
+\begin{enumerate}
+    \item Выявить различие в работе программ в примерах 7 и 8
+    \item Создать проект, позволяющий из одного, предварительно созданного программными средствами файла, переписать данные, соответствующие условию - в исходном файле содержится две строки в формате UTF-8 и 5 чисел типа double. В результирующий файл переписать вторую строку и положительные числа
+    \item Создать проект, позволяющий из одного текстового файла, содержащего несколько строк (тип String) заранее подготовленного текста на русском языке (Пушкин, Лермонтов или другой российский классик на Ваш вкус), построчно переписать в другой текстовый файл слова начинающиеся с согласных букв
+\end{enumerate}
+
+\section{Ход выполнения}
+
+\subsection{Задание 1: Сравнение работы программ в примерах 7 и 8}
+
+\textbf{Example7:} Чтение файла построчно с помощью \texttt{BufferedReader} и запись в другой файл через \texttt{BufferedWriter}. Используется буферизация для повышения производительности, выводятся строки в консоль. Обработка исключений через \texttt{try-catch-finally}, в блоке \texttt{finally} закрываются ресурсы и выполняется \texttt{flush}.
+
+\textbf{Example8:} Чтение символов по одному через \texttt{Reader} из различных источников: файл, URL (эмулируется локальным файлом), массив байт. Кодировка задаётся явно (UTF-8). Вывод в консоль с обозначением конца потока (\texttt{"end"}). Буферизация не используется, ресурсы закрываются вручную после каждого блока.
+
+\textbf{Ключевые отличия:} 
+\begin{itemize}
+    \item Example7 — построчное чтение и запись с буферизацией, Example8 — посимвольное чтение без буфера.
+    \item Example7 работает только с файлами, Example8 — с разными источниками данных.
+    \item Example7 использует кодировку по умолчанию, Example8 задаёт UTF-8 явно.
+\end{itemize}
+
+\subsection{Задание 2}
+
+\begin{lstlisting}[language=Java]
+package lr8;
+
+import java.io.*;
+
+public class Task2 {
+    public static void main(String[] args) {
+        String inputFile = "input_task2.dat";
+        String outputFile = "output_task2.dat";
+
+        // Create input file with test data
+        try (DataOutputStream dos = new DataOutputStream(
+                new FileOutputStream(inputFile))) {
+            dos.writeUTF("First line of text");
+            dos.writeUTF("Second line of text");
+            dos.writeDouble(3.14);
+            dos.writeDouble(-2.5);
+            dos.writeDouble(7.8);
+            dos.writeDouble(-1.0);
+            dos.writeDouble(9.99);
+            System.out.println("Input file created successfully");
+        } catch (IOException e) {
+            System.out.println("Error creating input file: " + e);
+            return;
+        }
+
+        // Read from input and write filtered data to output
+        try (DataInputStream dis = new DataInputStream(
+                new FileInputStream(inputFile));
+             DataOutputStream dos = new DataOutputStream(
+                new FileOutputStream(outputFile))) {
+
+            // Read two strings
+            String line1 = dis.readUTF();
+            String line2 = dis.readUTF();
+            System.out.println("Line 1: " + line1);
+            System.out.println("Line 2: " + line2);
+
+            // Write second line to output
+            dos.writeUTF(line2);
+
+            // Read 5 doubles and write positive ones
+            System.out.println("Numbers:");
+            for (int i = 0; i < 5; i++) {
+                double num = dis.readDouble();
+                System.out.println("  " + num);
+                if (num > 0) {
+                    dos.writeDouble(num);
+                }
+            }
+            System.out.println("Output file created successfully");
+
+        } catch (IOException e) {
+            System.out.println("Error: " + e);
+        }
+
+        // Verify output file
+        System.out.println("\nVerifying output file:");
+        try (DataInputStream dis = new DataInputStream(
+                new FileInputStream(outputFile))) {
+            System.out.println("Second line: " + dis.readUTF());
+            System.out.println("Positive numbers:");
+            while (dis.available() > 0) {
+                System.out.println("  " + dis.readDouble());
+            }
+        } catch (IOException e) {
+            System.out.println("Error reading output: " + e);
+        }
+    }
+}
+\end{lstlisting}
+
+\subsection{Задание 3}
+
+\begin{lstlisting}[language=Java]
+package lr8;
+
+import java.io.*;
+import java.nio.charset.StandardCharsets;
+
+public class Task3 {
+    public static void main(String[] args) {
+        String inputFile = "input_task3.txt";
+        String outputFile = "output_task3.txt";
+        String vowels = "аеёиоуыэюяАЕЁИОУЫЭЮЯ";
+
+        // Create input file with Russian text (Pushkin)
+        try (BufferedWriter bw = new BufferedWriter(
+                new OutputStreamWriter(
+                    new FileOutputStream(inputFile), StandardCharsets.UTF_8))) {
+            bw.write("Я помню чудное мгновенье"); bw.newLine();
+            bw.write("Передо мной явилась ты"); bw.newLine();
+            bw.write("Как мимолетное виденье"); bw.newLine();
+            bw.write("Как гений чистой красоты"); bw.newLine();
+            System.out.println("Input file created with Pushkin's poem");
+        } catch (IOException e) {
+            System.out.println("Error creating input file: " + e);
+            return;
+        }
+
+        // Process file
+        try (BufferedReader br = new BufferedReader(
+                new InputStreamReader(
+                    new FileInputStream(inputFile), StandardCharsets.UTF_8));
+             BufferedWriter bw = new BufferedWriter(
+                new OutputStreamWriter(
+                    new FileOutputStream(outputFile), StandardCharsets.UTF_8))) {
+
+            String line;
+            int lineNumber = 1;
+
+            while ((line = br.readLine()) != null) {
+                String[] words = line.split("\\s+");
+                StringBuilder consonantWords = new StringBuilder();
+                int count = 0;
+
+                for (String word : words) {
+                    if (word.isEmpty()) continue;
+                    char firstChar = word.charAt(0);
+                    // Check if first char is a letter and not a vowel
+                    if (Character.isLetter(firstChar) &&
+                        vowels.indexOf(firstChar) == -1) {
+                        if (consonantWords.length() > 0) {
+                            consonantWords.append(" ");
+                        }
+                        consonantWords.append(word);
+                        count++;
+                    }
+                }
+
+                bw.write("Line " + lineNumber + " (" + count + " words): ");
+                bw.write(consonantWords.toString());
+                bw.newLine();
+                lineNumber++;
+            }
+            System.out.println("Output file created successfully");
+
+        } catch (IOException e) {
+            System.out.println("Error: " + e);
+        }
+
+        // Display output file
+        System.out.println("\nOutput file contents:");
+        try (BufferedReader br = new BufferedReader(
+                new InputStreamReader(
+                    new FileInputStream(outputFile), StandardCharsets.UTF_8))) {
+            String line;
+            while ((line = br.readLine()) != null) {
+                System.out.println(line);
+            }
+        } catch (IOException e) {
+            System.out.println("Error reading output: " + e);
+        }
+    }
+}
+\end{lstlisting}
+
+\section{Ссылка на GitHub-репозиторий}
+
+Исходный код лабораторной работы доступен по ссылке:
+
+\url{https://github.com/viklover/urfu}
+
+Файлы классов расположены в директории \texttt{src/lr8/}.
+
+\section{Вывод}
+
+В ходе выполнения лабораторной работы были получены практические навыки работы с каталогами и файлами операционной системы, а также с классами ввода/вывода в языке Java. Были изучены и применены различные способы чтения и записи данных через символьные потоки: построчное чтение с использованием \texttt{BufferedReader} и запись через \texttt{BufferedWriter}, а также посимвольное чтение с помощью \texttt{Reader} из различных источников. Работа с буферизацией, обработкой исключений и явным указанием кодировки позволила закрепить навыки эффективного и корректного ввода/вывода данных из файлов.
+
+\end{document}
