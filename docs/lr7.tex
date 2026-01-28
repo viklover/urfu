@@ -1,0 +1,384 @@
+\documentclass[12pt,a4paper]{extarticle}
+\input{configs/title.tex}
+\usepackage{listings}
+\usepackage{xcolor}
+
+\lstset{
+    basicstyle=\ttfamily\small,
+    keywordstyle=\color{blue},
+    commentstyle=\color{gray},
+    stringstyle=\color{red},
+    frame=single,
+    breaklines=true,
+    showstringspaces=false
+}
+
+\begin{document}
+
+\maketitlepage{7}
+
+% Оглавление
+\tableofcontents
+\newpage
+
+% Разделы
+\section{Цель работы}
+\normalfont Освоить механизм наследования в Java: создание иерархий классов, переопределение и перегрузку методов, полиморфизм, конструкторы копирования.
+
+\section{Описание задачи}
+
+Реализовать 5 программ в пакете lr7, демонстрирующих различные аспекты наследования классов.
+
+\begin{enumerate}
+    \item Суперкласс и подкласс с переопределением toString()
+    \item Наследование с перегрузкой методов присваивания
+    \item Цепочка наследования из трёх классов с перегрузкой методов
+    \item Цепочка наследования с конструкторами копирования
+    \item Два подкласса от одного суперкласса, демонстрация полиморфизма
+\end{enumerate}
+
+\section{Ход выполнения}
+
+\subsection{Задание 1: Переопределение toString()}
+
+Суперкласс содержит приватное текстовое поле и переопределённый метод toString(). Подкласс добавляет ещё одно текстовое поле и также переопределяет toString().
+
+\begin{lstlisting}[language=Java]
+package lr7;
+
+public class Task1 {
+    static class SuperClass {
+        private String text;
+
+        public SuperClass(String text) {
+            this.text = text;
+        }
+
+        @Override
+        public String toString() {
+            return "SuperClass[text=" + text + "]";
+        }
+
+        protected String getText() {
+            return text;
+        }
+    }
+
+    static class SubClass extends SuperClass {
+        private String additionalText;
+
+        public SubClass(String text) {
+            super(text);
+            this.additionalText = "";
+        }
+
+        public SubClass(String text, String additionalText) {
+            super(text);
+            this.additionalText = additionalText;
+        }
+
+        @Override
+        public String toString() {
+            return "SubClass[text=" + getText()
+                + ", additionalText=" + additionalText + "]";
+        }
+    }
+
+    public static void main(String[] args) {
+        SuperClass obj1 = new SuperClass("Hello");
+        System.out.println(obj1.toString());
+        SubClass obj2 = new SubClass("World");
+        System.out.println(obj2.toString());
+        SubClass obj3 = new SubClass("Java", "Programming");
+        System.out.println(obj3.toString());
+    }
+}
+\end{lstlisting}
+
+\subsection{Задание 2: Перегрузка методов присваивания}
+
+Суперкласс содержит метод setValue и метод getLength. Подкласс перегружает setValue для работы с разными комбинациями параметров.
+
+\begin{lstlisting}[language=Java]
+package lr7;
+
+public class Task2 {
+    static class SuperClass {
+        private String text;
+
+        public SuperClass(String text) {
+            this.text = text;
+        }
+
+        public void setValue(String text) {
+            this.text = text;
+        }
+
+        public int getLength() {
+            return text.length();
+        }
+
+        protected String getText() {
+            return text;
+        }
+    }
+
+    static class SubClass extends SuperClass {
+        public int number;
+
+        public SubClass(String text, int number) {
+            super(text);
+            this.number = number;
+        }
+
+        public void setValue() {
+            super.setValue("");
+            this.number = 0;
+        }
+
+        @Override
+        public void setValue(String text) {
+            super.setValue(text);
+        }
+
+        public void setValue(int number) {
+            this.number = number;
+        }
+
+        public void setValue(String text, int number) {
+            super.setValue(text);
+            this.number = number;
+        }
+    }
+
+    public static void main(String[] args) {
+        SubClass obj = new SubClass("Hello", 42);
+        obj.setValue("Java", 100);
+        obj.setValue(999);
+        obj.setValue();
+    }
+}
+\end{lstlisting}
+
+\subsection{Задание 3: Цепочка из трёх классов}
+
+Три класса образуют цепочку наследования. Каждый класс добавляет своё поле и перегружает метод setValue с увеличивающимся числом параметров.
+
+\begin{lstlisting}[language=Java]
+package lr7;
+
+public class Task3 {
+    static class FirstClass {
+        public int number;
+
+        public FirstClass(int number) {
+            this.number = number;
+        }
+
+        public void setValue(int number) {
+            this.number = number;
+        }
+
+        @Override
+        public String toString() {
+            return "FirstClass[number=" + number + "]";
+        }
+    }
+
+    static class SecondClass extends FirstClass {
+        public char symbol;
+
+        public SecondClass(int number, char symbol) {
+            super(number);
+            this.symbol = symbol;
+        }
+
+        public void setValue(int number, char symbol) {
+            this.number = number;
+            this.symbol = symbol;
+        }
+
+        @Override
+        public String toString() {
+            return "SecondClass[number=" + number
+                + ", symbol=" + symbol + "]";
+        }
+    }
+
+    static class ThirdClass extends SecondClass {
+        public String text;
+
+        public ThirdClass(int number, char symbol, String text) {
+            super(number, symbol);
+            this.text = text;
+        }
+
+        public void setValue(int number, char symbol, String text) {
+            this.number = number;
+            this.symbol = symbol;
+            this.text = text;
+        }
+
+        @Override
+        public String toString() {
+            return "ThirdClass[number=" + number + ", symbol="
+                + symbol + ", text=" + text + "]";
+        }
+    }
+
+    public static void main(String[] args) {
+        FirstClass obj1 = new FirstClass(10);
+        System.out.println(obj1.toString());
+        SecondClass obj2 = new SecondClass(20, 'A');
+        System.out.println(obj2.toString());
+        ThirdClass obj3 = new ThirdClass(30, 'B', "Hello");
+        System.out.println(obj3.toString());
+    }
+}
+\end{lstlisting}
+
+\subsection{Задание 4: Конструкторы копирования}
+
+Цепочка из трёх классов, каждый из которых имеет конструктор для создания объекта по значениям полей и конструктор копирования.
+
+\begin{lstlisting}[language=Java]
+package lr7;
+
+public class Task4 {
+    static class FirstClass {
+        public char symbol;
+
+        public FirstClass(char symbol) {
+            this.symbol = symbol;
+        }
+
+        public FirstClass(FirstClass other) {
+            this.symbol = other.symbol;
+        }
+    }
+
+    static class SecondClass extends FirstClass {
+        public String text;
+
+        public SecondClass(char symbol, String text) {
+            super(symbol);
+            this.text = text;
+        }
+
+        public SecondClass(SecondClass other) {
+            super(other.symbol);
+            this.text = other.text;
+        }
+    }
+
+    static class ThirdClass extends SecondClass {
+        public int number;
+
+        public ThirdClass(char symbol, String text, int number) {
+            super(symbol, text);
+            this.number = number;
+        }
+
+        public ThirdClass(ThirdClass other) {
+            super(other.symbol, other.text);
+            this.number = other.number;
+        }
+    }
+
+    public static void main(String[] args) {
+        ThirdClass obj = new ThirdClass('A', "Hello", 42);
+        System.out.println("Original: " + obj.symbol
+            + ", " + obj.text + ", " + obj.number);
+        ThirdClass copy = new ThirdClass(obj);
+        System.out.println("Copy: " + copy.symbol
+            + ", " + copy.text + ", " + copy.number);
+    }
+}
+\end{lstlisting}
+
+\subsection{Задание 5: Полиморфизм}
+
+Суперкласс и два подкласса, каждый переопределяет метод display(). Демонстрируется полиморфизм через переменную типа суперкласса.
+
+\begin{lstlisting}[language=Java]
+package lr7;
+
+public class Task5 {
+    static class SuperClass {
+        private String text;
+
+        public SuperClass(String text) {
+            this.text = text;
+        }
+
+        public void display() {
+            System.out.println("SuperClass: text=" + text);
+        }
+
+        protected String getText() {
+            return text;
+        }
+    }
+
+    static class SubClassA extends SuperClass {
+        protected int number;
+
+        public SubClassA(String text, int number) {
+            super(text);
+            this.number = number;
+        }
+
+        @Override
+        public void display() {
+            System.out.println("SubClassA: text=" + getText()
+                + ", number=" + number);
+        }
+    }
+
+    static class SubClassB extends SuperClass {
+        protected char symbol;
+
+        public SubClassB(String text, char symbol) {
+            super(text);
+            this.symbol = symbol;
+        }
+
+        @Override
+        public void display() {
+            System.out.println("SubClassB: text=" + getText()
+                + ", symbol=" + symbol);
+        }
+    }
+
+    public static void main(String[] args) {
+        SuperClass obj1 = new SuperClass("Base");
+        SubClassA obj2 = new SubClassA("Alpha", 100);
+        SubClassB obj3 = new SubClassB("Beta", 'X');
+
+        obj1.display();
+        obj2.display();
+        obj3.display();
+
+        System.out.println("\nPolymorphism:");
+        SuperClass ref;
+        ref = obj2;
+        ref.display();
+        ref = obj3;
+        ref.display();
+    }
+}
+\end{lstlisting}
+
+\section{Ссылка на GitHub-репозиторий}
+
+Исходный код лабораторной работы доступен по ссылке:
+
+\url{https://github.com/viklover/urfu}
+
+Файлы классов расположены в директории \texttt{src/lr7/}.
+
+\section{Вывод}
+
+В ходе лабораторной работы были реализованы программы, демонстрирующие механизм наследования в Java. Освоены навыки создания иерархий классов, переопределения методов (override), перегрузки методов (overload), использования конструкторов копирования и полиморфизма. Цель работы достигнута.
+
+\end{document}
