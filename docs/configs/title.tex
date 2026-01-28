@@ -1,0 +1,75 @@
+\usepackage{setspace}
+\usepackage{indentfirst}
+\usepackage{fancyhdr}
+\usepackage{lastpage}
+\usepackage{fontspec}
+\usepackage{geometry}
+
+% Шрифт
+\setmainfont{Times New Roman}[
+    Path = ./fonts/,
+    UprightFont = times.ttf,
+    BoldFont = timesbd.ttf,
+    ItalicFont = timesi.ttf,
+    BoldItalicFont = timesbi.ttf
+]
+
+% Поля документа
+\geometry{left=2cm}% левое поле
+\geometry{right=1.5cm}% правое поле
+\geometry{top=1cm}% верхнее поле
+\geometry{bottom=2cm}% нижнее поле
+
+\newcommand{\imgh}[3] {
+    \begin{figure}[h]
+    \center{\includegraphics[width=#1]{#2}}
+    \caption{#3}
+    \label{ris:#2}
+    \end{figure}
+}
+
+% Полуторный межстрочный
+\onehalfspacing
+
+% Красная строка
+\setlength{\parindent}{1.25cm}
+
+\newcommand{\maketitlepage}[1]{
+\begin{titlepage}
+\thispagestyle{empty}
+
+% Верхняя часть - по центру
+\begin{center}
+\LARGE Уральский федеральный университет
+\end{center}
+
+% Пропускаем пространство до середины
+\vspace*{\stretch{2}}
+
+% Средняя часть - по центру
+\begin{center}
+\bfseries\Huge Отчет по \\
+\bfseries\Huge Лабораторной работе №#1
+\end{center}
+
+% Пропускаем немного
+\vspace*{\stretch{3}}
+
+% Информация о студенте - выравнивание по левому краю
+\begin{flushleft}
+\large
+\textbf{Студент:} Воробьев Михаил Сергеевич, \\
+\textbf{Группа:} РИЗ-150916у
+\end{flushleft}
+
+% Пропускаем до низа
+\vfill
+
+% Нижняя часть - по центру
+\begin{center}
+\large Екатеринбург, \\
+\large 2026 год
+\end{center}
+
+\end{titlepage}
+}
