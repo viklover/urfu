@@ -1,0 +1,355 @@
+\documentclass[12pt,a4paper]{extarticle}
+\input{configs/title.tex}
+\usepackage{listings}
+\usepackage{xcolor}
+
+\lstset{
+    basicstyle=\ttfamily\small,
+    keywordstyle=\color{blue},
+    commentstyle=\color{gray},
+    stringstyle=\color{red},
+    frame=single,
+    breaklines=true,
+    showstringspaces=false
+}
+
+\begin{document}
+
+\maketitlepage{6}
+
+% Оглавление
+\tableofcontents
+\newpage
+
+% Разделы
+\section{Цель работы}
+\normalfont Освоить работу со статическими полями и методами, перегрузкой методов, аргументами переменной длины (varargs) и операциями над массивами в Java.
+
+\section{Описание задачи}
+
+Реализовать 10 программ в пакете lr6, демонстрирующих различные аспекты работы с методами и массивами.
+
+\begin{enumerate}
+    \item Класс с перегруженным методом для присваивания значений полям
+    \item Класс со статическим полем-счётчиком
+    \item Статические методы max, min, avg с varargs
+    \item Статический метод для двойного факториала
+    \item Статический метод для суммы квадратов
+    \item Статический метод для получения подмассива
+    \item Статический метод преобразования символов в коды
+    \item Статический метод для среднего значения массива
+    \item Статический метод для обращения массива
+    \item Статический метод для нахождения min и max с varargs
+\end{enumerate}
+
+\section{Ход выполнения}
+
+\subsection{Задание 1: Перегруженный метод присваивания}
+
+Класс SymbolText содержит символьное и текстовое поле. Метод setValue перегружен для работы с символом, строкой и символьным массивом.
+
+\begin{lstlisting}[language=Java]
+package lr6;
+
+public class Task1 {
+    static class SymbolText {
+        public char symbol;
+        public String text;
+
+        public void setValue(char c) {
+            symbol = c;
+        }
+
+        public void setValue(String s) {
+            text = s;
+        }
+
+        public void setValue(char[] arr) {
+            if (arr.length == 1) {
+                symbol = arr[0];
+            } else {
+                text = new String(arr);
+            }
+        }
+
+        public void print() {
+            System.out.println("Symbol: " + symbol + ", Text: " + text);
+        }
+    }
+
+    public static void main(String[] args) {
+        SymbolText obj = new SymbolText();
+        obj.setValue('A');
+        obj.setValue("Hello");
+        obj.print();
+        obj.setValue(new char[]{'W', 'o', 'r', 'l', 'd'});
+        obj.print();
+    }
+}
+\end{lstlisting}
+
+\subsection{Задание 2: Статический счётчик}
+
+Класс Counter содержит закрытое статическое поле, которое увеличивается при каждом вызове метода showAndIncrement.
+
+\begin{lstlisting}[language=Java]
+package lr6;
+
+public class Task2 {
+    static class Counter {
+        private static int count = 0;
+
+        public static void showAndIncrement() {
+            System.out.println("Current value: " + count);
+            count++;
+        }
+    }
+
+    public static void main(String[] args) {
+        Counter.showAndIncrement();
+        Counter.showAndIncrement();
+        Counter.showAndIncrement();
+    }
+}
+\end{lstlisting}
+
+\subsection{Задание 3: Методы max, min, avg}
+
+Статические методы принимают произвольное количество аргументов (varargs) и вычисляют максимум, минимум и среднее значение.
+
+\begin{lstlisting}[language=Java]
+package lr6;
+
+public class Task3 {
+    public static int max(int... numbers) {
+        int result = numbers[0];
+        for (int n : numbers) {
+            if (n > result) result = n;
+        }
+        return result;
+    }
+
+    public static int min(int... numbers) {
+        int result = numbers[0];
+        for (int n : numbers) {
+            if (n < result) result = n;
+        }
+        return result;
+    }
+
+    public static double avg(int... numbers) {
+        int sum = 0;
+        for (int n : numbers) {
+            sum += n;
+        }
+        return (double) sum / numbers.length;
+    }
+
+    public static void main(String[] args) {
+        System.out.println("max(3,7,2,9,4) = " + max(3, 7, 2, 9, 4));
+        System.out.println("min(3,7,2,9,4) = " + min(3, 7, 2, 9, 4));
+        System.out.println("avg(3,7,2,9,4) = " + avg(3, 7, 2, 9, 4));
+    }
+}
+\end{lstlisting}
+
+\subsection{Задание 4: Двойной факториал}
+
+Метод вычисляет двойной факториал n!! — произведение чисел через одно от n до 1 или 2.
+
+\begin{lstlisting}[language=Java]
+package lr6;
+
+public class Task4 {
+    public static int doubleFactorial(int n) {
+        int result = 1;
+        for (int i = n; i >= 1; i -= 2) {
+            result *= i;
+        }
+        return result;
+    }
+
+    public static void main(String[] args) {
+        System.out.println("6!! = " + doubleFactorial(6));
+        System.out.println("5!! = " + doubleFactorial(5));
+    }
+}
+\end{lstlisting}
+
+\subsection{Задание 5: Сумма квадратов}
+
+Метод вычисляет сумму $1^2 + 2^2 + ... + n^2$. Для проверки используется формула $n(n+1)(2n+1)/6$.
+
+\begin{lstlisting}[language=Java]
+package lr6;
+
+public class Task5 {
+    public static int sumOfSquares(int n) {
+        int sum = 0;
+        for (int i = 1; i <= n; i++) {
+            sum += i * i;
+        }
+        return sum;
+    }
+
+    public static int sumOfSquaresFormula(int n) {
+        return n * (n + 1) * (2 * n + 1) / 6;
+    }
+
+    public static void main(String[] args) {
+        int n = 10;
+        System.out.println("Sum (loop): " + sumOfSquares(n));
+        System.out.println("Sum (formula): " + sumOfSquaresFormula(n));
+    }
+}
+\end{lstlisting}
+
+\subsection{Задание 6: Подмассив из начальных элементов}
+
+Метод возвращает новый массив из первых count элементов исходного массива. Если count больше длины массива, возвращается копия.
+
+\begin{lstlisting}[language=Java]
+package lr6;
+
+import java.util.Arrays;
+
+public class Task6 {
+    public static int[] takeFirst(int[] arr, int count) {
+        if (count >= arr.length) {
+            return Arrays.copyOf(arr, arr.length);
+        }
+        return Arrays.copyOf(arr, count);
+    }
+
+    public static void main(String[] args) {
+        int[] original = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10};
+        System.out.println("Original: " + Arrays.toString(original));
+        System.out.println("First 3: " + Arrays.toString(takeFirst(original, 3)));
+        System.out.println("First 15: " + Arrays.toString(takeFirst(original, 15)));
+    }
+}
+\end{lstlisting}
+
+\subsection{Задание 7: Символы в коды}
+
+Метод преобразует массив символов в массив их числовых кодов.
+
+\begin{lstlisting}[language=Java]
+package lr6;
+
+import java.util.Arrays;
+
+public class Task7 {
+    public static int[] charsToCodes(char[] chars) {
+        int[] codes = new int[chars.length];
+        for (int i = 0; i < chars.length; i++) {
+            codes[i] = (int) chars[i];
+        }
+        return codes;
+    }
+
+    public static void main(String[] args) {
+        char[] symbols = {'A', 'B', 'C', 'Z'};
+        System.out.println("Symbols: " + Arrays.toString(symbols));
+        System.out.println("Codes: " + Arrays.toString(charsToCodes(symbols)));
+    }
+}
+\end{lstlisting}
+
+\subsection{Задание 8: Среднее значение массива}
+
+Метод вычисляет среднее арифметическое элементов целочисленного массива.
+
+\begin{lstlisting}[language=Java]
+package lr6;
+
+import java.util.Arrays;
+
+public class Task8 {
+    public static double average(int[] arr) {
+        int sum = 0;
+        for (int n : arr) {
+            sum += n;
+        }
+        return (double) sum / arr.length;
+    }
+
+    public static void main(String[] args) {
+        int[] arr = {1, 2, 3, 4, 5};
+        System.out.println("Array: " + Arrays.toString(arr));
+        System.out.println("Average: " + average(arr));
+    }
+}
+\end{lstlisting}
+
+\subsection{Задание 9: Обращение массива}
+
+Метод меняет элементы массива попарно: первый с последним, второй с предпоследним и т.д.
+
+\begin{lstlisting}[language=Java]
+package lr6;
+
+import java.util.Arrays;
+
+public class Task9 {
+    public static void reverseSwap(char[] arr) {
+        int left = 0;
+        int right = arr.length - 1;
+        while (left < right) {
+            char temp = arr[left];
+            arr[left] = arr[right];
+            arr[right] = temp;
+            left++;
+            right--;
+        }
+    }
+
+    public static void main(String[] args) {
+        char[] arr = {'A', 'B', 'C', 'D', 'E'};
+        System.out.println("Before: " + Arrays.toString(arr));
+        reverseSwap(arr);
+        System.out.println("After: " + Arrays.toString(arr));
+    }
+}
+\end{lstlisting}
+
+\subsection{Задание 10: Минимум и максимум}
+
+Метод принимает произвольное количество аргументов и возвращает массив из двух элементов: минимального и максимального значений.
+
+\begin{lstlisting}[language=Java]
+package lr6;
+
+import java.util.Arrays;
+
+public class Task10 {
+    public static int[] minMax(int... numbers) {
+        int min = numbers[0];
+        int max = numbers[0];
+        for (int n : numbers) {
+            if (n < min) min = n;
+            if (n > max) max = n;
+        }
+        return new int[]{min, max};
+    }
+
+    public static void main(String[] args) {
+        int[] result = minMax(5, 2, 8, 1, 9, 3);
+        System.out.println("minMax(5,2,8,1,9,3) = " + Arrays.toString(result));
+    }
+}
+\end{lstlisting}
+
+\section{Ссылка на GitHub-репозиторий}
+
+Исходный код лабораторной работы доступен по ссылке:
+
+\url{https://github.com/viklover/urfu}
+
+Файлы классов расположены в директории \texttt{src/lr6/}.
+
+\section{Вывод}
+
+В ходе лабораторной работы были реализованы программы, демонстрирующие работу со статическими полями и методами, перегрузкой методов, аргументами переменной длины (varargs) и различными операциями над массивами. Цель работы достигнута.
+
+\end{document}
