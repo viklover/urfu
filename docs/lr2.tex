@@ -1,0 +1,171 @@
+\documentclass[12pt,a4paper]{extarticle}
+\input{configs/title.tex}
+\usepackage{listings}
+\usepackage{xcolor}
+
+\lstset{
+    basicstyle=\ttfamily\small,
+    keywordstyle=\color{blue},
+    commentstyle=\color{gray},
+    stringstyle=\color{red},
+    frame=single,
+    breaklines=true,
+    showstringspaces=false
+}
+
+\begin{document}
+
+\maketitlepage{2}
+
+% Оглавление
+\tableofcontents
+\newpage
+
+% Разделы
+\section{Цель работы}
+\normalfont Освоить работу с условными операторами в языке Java: конструкцию if-else, операторы сравнения и логические операторы, а также арифметические операции деления и взятия остатка.
+
+\section{Описание задачи}
+
+Реализовать 5 отдельных Java-классов в пакете lr2. Каждый класс должен содержать метод main, осуществлять ввод данных через Scanner и выводить результат проверки условия в консоль.
+
+\begin{enumerate}
+    \item Проверка, делится ли введённое число на 3
+    \item Проверка, удовлетворяет ли число условиям: при делении на 5 остаток равен 2, при делении на 7 остаток равен 1
+    \item Проверка, что число делится на 4 и не меньше 10
+    \item Проверка, попадает ли число в диапазон от 5 до 10 включительно
+    \item Определение количества тысяч во введённом числе (четвёртая цифра справа)
+\end{enumerate}
+
+\section{Ход выполнения}
+
+\subsection{Задание 1: Делимость на 3}
+
+Программа проверяет, делится ли введённое число на 3 без остатка. Используется оператор взятия остатка от деления (\%).
+
+\begin{lstlisting}[language=Java]
+package lr2;
+
+import java.util.Scanner;
+
+public class Task1 {
+    public static void main(String[] args) {
+        Scanner in = new Scanner(System.in);
+        System.out.println("Введите число:");
+        int num = in.nextInt();
+        if (num % 3 == 0) {
+            System.out.println("Число делится на 3");
+        } else {
+            System.out.println("Число не делится на 3");
+        }
+        in.close();
+    }
+}
+\end{lstlisting}
+
+\subsection{Задание 2: Проверка двух условий с остатками}
+
+Программа проверяет выполнение двух условий одновременно: остаток от деления на 5 равен 2 и остаток от деления на 7 равен 1. Используется логический оператор И (\&\&).
+
+\begin{lstlisting}[language=Java]
+package lr2;
+
+import java.util.Scanner;
+
+public class Task2 {
+    public static void main(String[] args) {
+        Scanner in = new Scanner(System.in);
+        System.out.println("Введите число:");
+        int num = in.nextInt();
+        if (num % 5 == 2 && num % 7 == 1) {
+            System.out.println("Число удовлетворяет условиям");
+        } else {
+            System.out.println("Число не удовлетворяет условиям");
+        }
+        in.close();
+    }
+}
+\end{lstlisting}
+
+\subsection{Задание 3: Делимость на 4 и минимальное значение}
+
+Программа проверяет два условия: число должно делиться на 4 и быть не меньше 10. Демонстрируется комбинация проверки делимости и сравнения.
+
+\begin{lstlisting}[language=Java]
+package lr2;
+
+import java.util.Scanner;
+
+public class Task3 {
+    public static void main(String[] args) {
+        Scanner in = new Scanner(System.in);
+        System.out.println("Введите число:");
+        int num = in.nextInt();
+        if (num % 4 == 0 && num >= 10) {
+            System.out.println("Число удовлетворяет условиям");
+        } else {
+            System.out.println("Число не удовлетворяет условиям");
+        }
+        in.close();
+    }
+}
+\end{lstlisting}
+
+\subsection{Задание 4: Проверка диапазона}
+
+Программа проверяет, попадает ли число в заданный диапазон [5, 10]. Используются операторы сравнения >= и <=.
+
+\begin{lstlisting}[language=Java]
+package lr2;
+
+import java.util.Scanner;
+
+public class Task4 {
+    public static void main(String[] args) {
+        Scanner in = new Scanner(System.in);
+        System.out.println("Введите число:");
+        int num = in.nextInt();
+        if (num >= 5 && num <= 10) {
+            System.out.println("Число попадает в диапазон от 5 до 10");
+        } else {
+            System.out.println("Число не попадает в диапазон от 5 до 10");
+        }
+        in.close();
+    }
+}
+\end{lstlisting}
+
+\subsection{Задание 5: Определение количества тысяч}
+
+Программа извлекает четвёртую цифру справа из десятичной записи числа. Для этого число сначала делится на 1000 (отбрасываются три младших разряда), затем берётся остаток от деления на 10 (извлекается последняя цифра результата).
+
+\begin{lstlisting}[language=Java]
+package lr2;
+
+import java.util.Scanner;
+
+public class Task5 {
+    public static void main(String[] args) {
+        Scanner in = new Scanner(System.in);
+        System.out.println("Введите число:");
+        int num = in.nextInt();
+        int thousands = (num / 1000) % 10;
+        System.out.println("Количество тысяч: " + thousands);
+        in.close();
+    }
+}
+\end{lstlisting}
+
+\section{Ссылка на GitHub-репозиторий}
+
+Исходный код лабораторной работы доступен по ссылке:
+
+\url{https://github.com/viklover/urfu}
+
+Файлы классов расположены в директории \texttt{src/lr2/}.
+
+\section{Вывод}
+
+В ходе лабораторной работы были реализованы 5 консольных Java-программ, демонстрирующих работу с условными операторами. Освоены навыки использования конструкции if-else, операторов сравнения (==, >=, <=), логических операторов (\&\&), а также арифметических операций деления и взятия остатка для проверки делимости и извлечения цифр из числа. Цель работы достигнута.
+
+\end{document}
