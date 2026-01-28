@@ -39,3 +39,5 @@ bin/
 *.toc
 svg-inkscape/
 *.synctex.gz
+
+*.class

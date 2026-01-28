@@ -1,0 +1,299 @@
+\documentclass[12pt,a4paper]{extarticle}
+\input{configs/title.tex}
+\usepackage{listings}
+\usepackage{xcolor}
+
+\lstset{
+    basicstyle=\ttfamily\small,
+    keywordstyle=\color{blue},
+    commentstyle=\color{gray},
+    stringstyle=\color{red},
+    frame=single,
+    breaklines=true,
+    showstringspaces=false
+}
+
+\begin{document}
+
+\maketitlepage{1}
+
+% Оглавление
+\tableofcontents
+\newpage
+
+% Разделы
+\section{Цель работы}
+\normalfont Освоить основы программирования на языке Java: работу с консольным вводом/выводом, использование класса Scanner, операции с переменными различных типов (String, int) и базовые арифметические вычисления.
+
+\section{Описание задачи}
+
+Реализовать 10 отдельных Java-классов в пакете lr1. Каждый класс должен содержать метод main, осуществлять ввод данных через Scanner и выводить результат в консоль.
+
+\begin{enumerate}
+    \item Пользователь вводит фамилию, имя и отчество — вывести «Hello <ФИО>»
+    \item Пользователь вводит имя и возраст — вывести информацию о пользователе
+    \item Пользователь вводит день недели, месяц и число — вывести полную дату
+    \item Пользователь вводит название месяца и количество дней — вывести сообщение о количестве дней в месяце
+    \item По году рождения определить возраст пользователя
+    \item Пользователь вводит имя и год рождения — вывести имя и возраст
+    \item По возрасту определить год рождения
+    \item Пользователь вводит два числа — вывести их сумму
+    \item Пользователь вводит число — вывести число на 1 меньше, введённое число, число на 1 больше и квадрат суммы этих трёх чисел
+    \item Пользователь вводит два числа — вывести сумму и разность
+\end{enumerate}
+
+\section{Ход выполнения}
+
+\subsection{Задание 1: Приветствие по ФИО}
+
+Программа запрашивает у пользователя фамилию, имя и отчество, а затем выводит приветствие. Для ввода строк используется метод nextLine() класса Scanner.
+
+\begin{lstlisting}[language=Java]
+package lr1;
+
+import java.util.Scanner;
+
+public class Task1 {
+    public static void main(String[] args) {
+        Scanner in = new Scanner(System.in);
+        System.out.println("Введите фамилию:");
+        String lastname = in.nextLine();
+        System.out.println("Введите имя:");
+        String firstname = in.nextLine();
+        System.out.println("Введите отчество:");
+        String patronymic = in.nextLine();
+        System.out.println("Hello " + lastname + " "
+            + firstname + " " + patronymic);
+        in.close();
+    }
+}
+\end{lstlisting}
+
+\subsection{Задание 2: Информация о пользователе}
+
+Программа принимает имя (строка) и возраст (целое число), затем выводит эту информацию. Демонстрируется использование nextLine() для строк и nextInt() для чисел.
+
+\begin{lstlisting}[language=Java]
+package lr1;
+
+import java.util.Scanner;
+
+public class Task2 {
+    public static void main(String[] args) {
+        Scanner in = new Scanner(System.in);
+        System.out.println("Введите имя:");
+        String name = in.nextLine();
+        System.out.println("Введите возраст:");
+        int age = in.nextInt();
+        System.out.println("Имя: " + name);
+        System.out.println("Возраст: " + age);
+        in.close();
+    }
+}
+\end{lstlisting}
+
+\subsection{Задание 3: Вывод полной даты}
+
+Программа собирает дату из трёх компонентов: день недели, месяц и число. Результат выводится в формате «день недели, число месяц».
+
+\begin{lstlisting}[language=Java]
+package lr1;
+
+import java.util.Scanner;
+
+public class Task3 {
+    public static void main(String[] args) {
+        Scanner in = new Scanner(System.in);
+        System.out.println("Введите день недели:");
+        String dayOfWeek = in.nextLine();
+        System.out.println("Введите месяц:");
+        String month = in.nextLine();
+        System.out.println("Введите число:");
+        int day = in.nextInt();
+        System.out.println("Полная дата: " + dayOfWeek
+            + ", " + day + " " + month);
+        in.close();
+    }
+}
+\end{lstlisting}
+
+\subsection{Задание 4: Количество дней в месяце}
+
+Программа принимает название месяца и количество дней, затем формирует информационное сообщение.
+
+\begin{lstlisting}[language=Java]
+package lr1;
+
+import java.util.Scanner;
+
+public class Task4 {
+    public static void main(String[] args) {
+        Scanner in = new Scanner(System.in);
+        System.out.println("Введите название месяца:");
+        String month = in.nextLine();
+        System.out.println("Введите количество дней:");
+        int days = in.nextInt();
+        System.out.println("В месяце " + month
+            + " " + days + " дней");
+        in.close();
+    }
+}
+\end{lstlisting}
+
+\subsection{Задание 5: Вычисление возраста по году рождения}
+
+Программа вычисляет возраст пользователя, вычитая год рождения из текущего года.
+
+\begin{lstlisting}[language=Java]
+package lr1;
+
+import java.util.Scanner;
+
+public class Task5 {
+    public static void main(String[] args) {
+        Scanner in = new Scanner(System.in);
+        System.out.println("Введите год рождения:");
+        int birthYear = in.nextInt();
+        int currentYear = 2026;
+        int age = currentYear - birthYear;
+        System.out.println("Ваш возраст: " + age);
+        in.close();
+    }
+}
+\end{lstlisting}
+
+\subsection{Задание 6: Имя и возраст по году рождения}
+
+Расширение задания 5: программа дополнительно запрашивает имя пользователя и выводит его вместе с вычисленным возрастом.
+
+\begin{lstlisting}[language=Java]
+package lr1;
+
+import java.util.Scanner;
+
+public class Task6 {
+    public static void main(String[] args) {
+        Scanner in = new Scanner(System.in);
+        System.out.println("Введите имя:");
+        String name = in.nextLine();
+        System.out.println("Введите год рождения:");
+        int birthYear = in.nextInt();
+        int currentYear = 2026;
+        int age = currentYear - birthYear;
+        System.out.println("Имя: " + name);
+        System.out.println("Возраст: " + age);
+        in.close();
+    }
+}
+\end{lstlisting}
+
+\subsection{Задание 7: Вычисление года рождения по возрасту}
+
+Обратная задача: по введённому возрасту определяется год рождения.
+
+\begin{lstlisting}[language=Java]
+package lr1;
+
+import java.util.Scanner;
+
+public class Task7 {
+    public static void main(String[] args) {
+        Scanner in = new Scanner(System.in);
+        System.out.println("Введите возраст:");
+        int age = in.nextInt();
+        int currentYear = 2026;
+        int birthYear = currentYear - age;
+        System.out.println("Год рождения: " + birthYear);
+        in.close();
+    }
+}
+\end{lstlisting}
+
+\subsection{Задание 8: Сумма двух чисел}
+
+Простейшая арифметическая операция: сложение двух целых чисел.
+
+\begin{lstlisting}[language=Java]
+package lr1;
+
+import java.util.Scanner;
+
+public class Task8 {
+    public static void main(String[] args) {
+        Scanner in = new Scanner(System.in);
+        System.out.println("Введите первое число:");
+        int a = in.nextInt();
+        System.out.println("Введите второе число:");
+        int b = in.nextInt();
+        int sum = a + b;
+        System.out.println("Сумма: " + sum);
+        in.close();
+    }
+}
+\end{lstlisting}
+
+\subsection{Задание 9: Соседние числа и квадрат суммы}
+
+Программа выводит три последовательных числа (введённое и два соседних), а также квадрат их суммы. Демонстрируется работа с несколькими арифметическими операциями.
+
+\begin{lstlisting}[language=Java]
+package lr1;
+
+import java.util.Scanner;
+
+public class Task9 {
+    public static void main(String[] args) {
+        Scanner in = new Scanner(System.in);
+        System.out.println("Введите число:");
+        int num = in.nextInt();
+        int less = num - 1;
+        int more = num + 1;
+        int sum = less + num + more;
+        int square = sum * sum;
+        System.out.println("Число на 1 меньше: " + less);
+        System.out.println("Введённое число: " + num);
+        System.out.println("Число на 1 больше: " + more);
+        System.out.println("Квадрат суммы: " + square);
+        in.close();
+    }
+}
+\end{lstlisting}
+
+\subsection{Задание 10: Сумма и разность двух чисел}
+
+Программа выполняет две арифметические операции над парой чисел: сложение и вычитание.
+
+\begin{lstlisting}[language=Java]
+package lr1;
+
+import java.util.Scanner;
+
+public class Task10 {
+    public static void main(String[] args) {
+        Scanner in = new Scanner(System.in);
+        System.out.println("Введите первое число:");
+        int a = in.nextInt();
+        System.out.println("Введите второе число:");
+        int b = in.nextInt();
+        int sum = a + b;
+        int diff = a - b;
+        System.out.println("Сумма: " + sum);
+        System.out.println("Разность: " + diff);
+        in.close();
+    }
+}
+\end{lstlisting}
+
+\section{Ссылка на GitHub-репозиторий}
+
+Исходный код лабораторной работы доступен по ссылке:
+
+\url{https://github.com/viklover/urfu}
+
+Файлы классов расположены в директории \texttt{src/lr1/}.
+
+\section{Вывод}
+
+В ходе лабораторной работы были реализованы 10 консольных Java-программ, демонстрирующих базовые возможности языка. Освоены навыки работы с классом Scanner для ввода данных, конкатенации строк, объявления переменных различных типов и выполнения арифметических операций. Цель работы достигнута.
+
+\end{document}
