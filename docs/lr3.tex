@@ -1,0 +1,515 @@
+\documentclass[12pt,a4paper]{extarticle}
+\input{configs/title.tex}
+\usepackage{listings}
+\usepackage{xcolor}
+
+\lstset{
+    basicstyle=\ttfamily\small,
+    keywordstyle=\color{blue},
+    commentstyle=\color{gray},
+    stringstyle=\color{red},
+    frame=single,
+    breaklines=true,
+    showstringspaces=false
+}
+
+\begin{document}
+
+\maketitlepage{3}
+
+% Оглавление
+\tableofcontents
+\newpage
+
+% Разделы
+\section{Цель работы}
+\normalfont Освоить работу с условными операторами (if-else, switch), циклами (for, while) и одномерными массивами в языке Java.
+
+\section{Описание задачи}
+
+Реализовать 10 заданий в пакете lr3. Для некоторых заданий требуется несколько версий с использованием разных конструкций языка.
+
+\begin{enumerate}
+    \item Определение дня недели по номеру (switch)
+    \item Определение номера дня по названию (две версии: if-else и switch)
+    \item Вывод чисел Фибоначчи (версии с разными циклами)
+    \item Вывод чисел от меньшего к большему (версии с разными циклами)
+    \item Сумма чисел по условию (версии с разными циклами)
+    \item Массив чисел вида 2, 7, 12, 17...
+    \item Символьный массив с буквами через одну
+    \item Массив прописных согласных английского алфавита
+    \item Поиск минимума и его индексов в массиве
+    \item Сортировка массива по убыванию
+\end{enumerate}
+
+\section{Ход выполнения}
+
+\subsection{Задание 1: День недели по номеру}
+
+Программа определяет название дня недели по введённому номеру от 1 до 7. Используется оператор switch с обработкой некорректного ввода в блоке default.
+
+\begin{lstlisting}[language=Java]
+package lr3;
+
+import java.util.Scanner;
+
+public class Task1 {
+    public static void main(String[] args) {
+        Scanner in = new Scanner(System.in);
+        System.out.println("Введите число от 1 до 7:");
+        int day = in.nextInt();
+        switch (day) {
+            case 1: System.out.println("Понедельник"); break;
+            case 2: System.out.println("Вторник"); break;
+            case 3: System.out.println("Среда"); break;
+            case 4: System.out.println("Четверг"); break;
+            case 5: System.out.println("Пятница"); break;
+            case 6: System.out.println("Суббота"); break;
+            case 7: System.out.println("Воскресенье"); break;
+            default:
+                System.out.println("Ошибка: число должно быть от 1 до 7");
+        }
+        in.close();
+    }
+}
+\end{lstlisting}
+
+\subsection{Задание 2: Номер дня по названию}
+
+\subsubsection{Версия с if-else}
+
+Программа определяет порядковый номер дня недели по его названию. Используется цепочка вложенных условий if-else.
+
+\begin{lstlisting}[language=Java]
+package lr3;
+
+import java.util.Scanner;
+
+public class Task2IfElse {
+    public static void main(String[] args) {
+        Scanner in = new Scanner(System.in);
+        System.out.println("Введите название дня недели:");
+        String day = in.nextLine().toLowerCase();
+        int number;
+        if (day.equals("понедельник")) {
+            number = 1;
+        } else if (day.equals("вторник")) {
+            number = 2;
+        } else if (day.equals("среда")) {
+            number = 3;
+        } else if (day.equals("четверг")) {
+            number = 4;
+        } else if (day.equals("пятница")) {
+            number = 5;
+        } else if (day.equals("суббота")) {
+            number = 6;
+        } else if (day.equals("воскресенье")) {
+            number = 7;
+        } else {
+            System.out.println("Ошибка: некорректное название");
+            in.close();
+            return;
+        }
+        System.out.println("Порядковый номер: " + number);
+        in.close();
+    }
+}
+\end{lstlisting}
+
+\subsubsection{Версия с switch}
+
+Аналогичная логика, реализованная через оператор switch по строке.
+
+\begin{lstlisting}[language=Java]
+package lr3;
+
+import java.util.Scanner;
+
+public class Task2Switch {
+    public static void main(String[] args) {
+        Scanner in = new Scanner(System.in);
+        System.out.println("Введите название дня недели:");
+        String day = in.nextLine().toLowerCase();
+        int number;
+        switch (day) {
+            case "понедельник": number = 1; break;
+            case "вторник": number = 2; break;
+            case "среда": number = 3; break;
+            case "четверг": number = 4; break;
+            case "пятница": number = 5; break;
+            case "суббота": number = 6; break;
+            case "воскресенье": number = 7; break;
+            default:
+                System.out.println("Ошибка: некорректное название");
+                in.close();
+                return;
+        }
+        System.out.println("Порядковый номер: " + number);
+        in.close();
+    }
+}
+\end{lstlisting}
+
+\subsection{Задание 3: Числа Фибоначчи}
+
+Программа выводит последовательность чисел Фибоначчи, где первые два числа равны 1.
+
+\subsubsection{Версия с циклом for}
+
+\begin{lstlisting}[language=Java]
+package lr3;
+
+import java.util.Scanner;
+
+public class Task3For {
+    public static void main(String[] args) {
+        Scanner in = new Scanner(System.in);
+        System.out.println("Введите количество чисел Фибоначчи:");
+        int n = in.nextInt();
+        if (n <= 0) {
+            System.out.println("Количество должно быть положительным");
+            in.close();
+            return;
+        }
+        int a = 1, b = 1;
+        for (int i = 0; i < n; i++) {
+            System.out.print(a + " ");
+            int temp = a + b;
+            a = b;
+            b = temp;
+        }
+        System.out.println();
+        in.close();
+    }
+}
+\end{lstlisting}
+
+\subsubsection{Версия с циклом while}
+
+\begin{lstlisting}[language=Java]
+package lr3;
+
+import java.util.Scanner;
+
+public class Task3While {
+    public static void main(String[] args) {
+        Scanner in = new Scanner(System.in);
+        System.out.println("Введите количество чисел Фибоначчи:");
+        int n = in.nextInt();
+        if (n <= 0) {
+            System.out.println("Количество должно быть положительным");
+            in.close();
+            return;
+        }
+        int a = 1, b = 1;
+        int i = 0;
+        while (i < n) {
+            System.out.print(a + " ");
+            int temp = a + b;
+            a = b;
+            b = temp;
+            i++;
+        }
+        System.out.println();
+        in.close();
+    }
+}
+\end{lstlisting}
+
+\subsection{Задание 4: Числа от меньшего к большему}
+
+Программа выводит все целые числа между двумя введёнными значениями.
+
+\subsubsection{Версия с циклом for}
+
+\begin{lstlisting}[language=Java]
+package lr3;
+
+import java.util.Scanner;
+
+public class Task4For {
+    public static void main(String[] args) {
+        Scanner in = new Scanner(System.in);
+        System.out.println("Введите первое число:");
+        int a = in.nextInt();
+        System.out.println("Введите второе число:");
+        int b = in.nextInt();
+        int min = Math.min(a, b);
+        int max = Math.max(a, b);
+        for (int i = min; i <= max; i++) {
+            System.out.print(i + " ");
+        }
+        System.out.println();
+        in.close();
+    }
+}
+\end{lstlisting}
+
+\subsubsection{Версия с циклом while}
+
+\begin{lstlisting}[language=Java]
+package lr3;
+
+import java.util.Scanner;
+
+public class Task4While {
+    public static void main(String[] args) {
+        Scanner in = new Scanner(System.in);
+        System.out.println("Введите первое число:");
+        int a = in.nextInt();
+        System.out.println("Введите второе число:");
+        int b = in.nextInt();
+        int min = Math.min(a, b);
+        int max = Math.max(a, b);
+        int i = min;
+        while (i <= max) {
+            System.out.print(i + " ");
+            i++;
+        }
+        System.out.println();
+        in.close();
+    }
+}
+\end{lstlisting}
+
+\subsection{Задание 5: Сумма чисел по условию}
+
+Программа находит сумму чисел от 1 до n, которые при делении на 5 дают остаток 2 или при делении на 3 дают остаток 1.
+
+\subsubsection{Версия с циклом for}
+
+\begin{lstlisting}[language=Java]
+package lr3;
+
+import java.util.Scanner;
+
+public class Task5For {
+    public static void main(String[] args) {
+        Scanner in = new Scanner(System.in);
+        System.out.println("Введите количество чисел:");
+        int n = in.nextInt();
+        int sum = 0;
+        System.out.println("Числа, удовлетворяющие условию:");
+        for (int i = 1; i <= n; i++) {
+            if (i % 5 == 2 || i % 3 == 1) {
+                System.out.print(i + " ");
+                sum += i;
+            }
+        }
+        System.out.println();
+        System.out.println("Сумма: " + sum);
+        in.close();
+    }
+}
+\end{lstlisting}
+
+\subsubsection{Версия с циклом while}
+
+\begin{lstlisting}[language=Java]
+package lr3;
+
+import java.util.Scanner;
+
+public class Task5While {
+    public static void main(String[] args) {
+        Scanner in = new Scanner(System.in);
+        System.out.println("Введите количество чисел:");
+        int n = in.nextInt();
+        int sum = 0;
+        int i = 1;
+        System.out.println("Числа, удовлетворяющие условию:");
+        while (i <= n) {
+            if (i % 5 == 2 || i % 3 == 1) {
+                System.out.print(i + " ");
+                sum += i;
+            }
+            i++;
+        }
+        System.out.println();
+        System.out.println("Сумма: " + sum);
+        in.close();
+    }
+}
+\end{lstlisting}
+
+\subsection{Задание 6: Массив чисел 2, 7, 12, 17...}
+
+Программа создаёт массив чисел, дающих остаток 2 при делении на 5. Формула элемента: $a_i = 2 + 5i$.
+
+\begin{lstlisting}[language=Java]
+package lr3;
+
+import java.util.Scanner;
+
+public class Task6 {
+    public static void main(String[] args) {
+        Scanner in = new Scanner(System.in);
+        System.out.println("Введите размер массива:");
+        int n = in.nextInt();
+        if (n <= 0) {
+            System.out.println("Ошибка: размер должен быть положительным");
+            in.close();
+            return;
+        }
+        int[] arr = new int[n];
+        for (int i = 0; i < n; i++) {
+            arr[i] = 2 + i * 5;
+        }
+        System.out.println("Массив:");
+        for (int i = 0; i < n; i++) {
+            System.out.print(arr[i] + " ");
+        }
+        System.out.println();
+        in.close();
+    }
+}
+\end{lstlisting}
+
+\subsection{Задание 7: Символьный массив через одну букву}
+
+Программа создаёт массив из 10 символов, заполняя его буквами русского алфавита через одну, начиная с 'а'. Массив выводится в прямом и обратном порядке.
+
+\begin{lstlisting}[language=Java]
+package lr3;
+
+public class Task7 {
+    public static void main(String[] args) {
+        int size = 10;
+        char[] arr = new char[size];
+        char c = 'а';
+        for (int i = 0; i < size; i++) {
+            arr[i] = c;
+            c += 2;
+        }
+        System.out.println("Массив в прямом порядке:");
+        for (int i = 0; i < size; i++) {
+            System.out.print(arr[i] + " ");
+        }
+        System.out.println();
+        System.out.println("Массив в обратном порядке:");
+        for (int i = size - 1; i >= 0; i--) {
+            System.out.print(arr[i] + " ");
+        }
+        System.out.println();
+    }
+}
+\end{lstlisting}
+
+\subsection{Задание 8: Прописные согласные}
+
+Программа создаёт массив из 10 прописных согласных букв английского алфавита, пропуская гласные (A, E, I, O, U, Y).
+
+\begin{lstlisting}[language=Java]
+package lr3;
+
+public class Task8 {
+    public static void main(String[] args) {
+        char[] arr = new char[10];
+        String vowels = "AEIOUY";
+        int index = 0;
+        char c = 'A';
+        while (index < 10 && c <= 'Z') {
+            if (vowels.indexOf(c) == -1) {
+                arr[index] = c;
+                index++;
+            }
+            c++;
+        }
+        System.out.println("Прописные согласные английского алфавита:");
+        for (int i = 0; i < 10; i++) {
+            System.out.print(arr[i] + " ");
+        }
+        System.out.println();
+    }
+}
+\end{lstlisting}
+
+\subsection{Задание 9: Минимум и его индексы}
+
+Программа создаёт массив случайных чисел, находит минимальное значение и выводит все индексы, содержащие это значение.
+
+\begin{lstlisting}[language=Java]
+package lr3;
+
+import java.util.Random;
+
+public class Task9 {
+    public static void main(String[] args) {
+        int size = 10;
+        int[] arr = new int[size];
+        Random rand = new Random();
+        System.out.println("Массив:");
+        for (int i = 0; i < size; i++) {
+            arr[i] = rand.nextInt(20);
+            System.out.print(arr[i] + " ");
+        }
+        System.out.println();
+        int min = arr[0];
+        for (int i = 1; i < size; i++) {
+            if (arr[i] < min) {
+                min = arr[i];
+            }
+        }
+        System.out.println("Минимальное значение: " + min);
+        System.out.print("Индексы минимального элемента: ");
+        for (int i = 0; i < size; i++) {
+            if (arr[i] == min) {
+                System.out.print(i + " ");
+            }
+        }
+        System.out.println();
+    }
+}
+\end{lstlisting}
+
+\subsection{Задание 10: Сортировка по убыванию}
+
+Программа создаёт массив случайных чисел и сортирует его по убыванию методом пузырька.
+
+\begin{lstlisting}[language=Java]
+package lr3;
+
+import java.util.Random;
+
+public class Task10 {
+    public static void main(String[] args) {
+        int size = 10;
+        int[] arr = new int[size];
+        Random rand = new Random();
+        System.out.println("Исходный массив:");
+        for (int i = 0; i < size; i++) {
+            arr[i] = rand.nextInt(100);
+            System.out.print(arr[i] + " ");
+        }
+        System.out.println();
+        for (int i = 0; i < size - 1; i++) {
+            for (int j = 0; j < size - 1 - i; j++) {
+                if (arr[j] < arr[j + 1]) {
+                    int temp = arr[j];
+                    arr[j] = arr[j + 1];
+                    arr[j + 1] = temp;
+                }
+            }
+        }
+        System.out.println("Отсортированный по убыванию:");
+        for (int i = 0; i < size; i++) {
+            System.out.print(arr[i] + " ");
+        }
+        System.out.println();
+    }
+}
+\end{lstlisting}
+
+\section{Ссылка на GitHub-репозиторий}
+
+Исходный код лабораторной работы доступен по ссылке:
+
+\url{https://github.com/viklover/urfu}
+
+Файлы классов расположены в директории \texttt{src/lr3/}.
+
+\section{Вывод}
+
+В ходе лабораторной работы были реализованы программы, демонстрирующие работу с условными операторами if-else и switch, циклами for и while, а также одномерными массивами. Освоены навыки генерации последовательностей, поиска экстремумов и сортировки массивов. Цель работы достигнута.
+
+\end{document}
