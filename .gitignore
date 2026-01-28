@@ -36,7 +36,6 @@ bin/
 *.pdf
 *.fdb_latexmk
 *.fls
-*.fdb_latexmk
-*.fls
+*.toc
 svg-inkscape/
 *.synctex.gz

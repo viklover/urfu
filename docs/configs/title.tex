@@ -4,6 +4,10 @@
 \usepackage{lastpage}
 \usepackage{fontspec}
 \usepackage{geometry}
+\usepackage{tocloft}
+\usepackage{graphicx}
+\usepackage{caption}
+\usepackage[hidelinks]{hyperref}
 
 % Шрифт
 \setmainfont{Times New Roman}[
@@ -20,12 +24,33 @@
 \geometry{top=1cm}% верхнее поле
 \geometry{bottom=2cm}% нижнее поле
 
+% Вставка изображений
+\renewcommand{\figurename}{Рисунок}
+\captionsetup[figure]{labelsep=period}
 \newcommand{\imgh}[3] {
     \begin{figure}[h]
     \center{\includegraphics[width=#1]{#2}}
     \caption{#3}
     \label{ris:#2}
     \end{figure}
+}
+
+% Настройки оглавления
+\renewcommand{\contentsname}{\hfill\bfseries\Large Оглавление\hfill}   
+\renewcommand{\cftaftertoctitle}{\hfill}
+\renewcommand{\cftafterlottitle}{\hfill}
+\renewcommand{\cftsecleader}{\cftdotfill{\cftdotsep}}
+\renewcommand{\cftsecfont}{\fontsize{14}{17}\selectfont\bfseries}
+\renewcommand{\cftsecpagefont}{\fontsize{14}{17}\selectfont}
+\renewcommand{\cftsubsecfont}{\fontsize{14}{17}\selectfont}
+\renewcommand{\cftsecfont}{\large\normalfont}
+\renewcommand{\cftsecpagefont}{\large\normalfont}
+\hypersetup{
+    colorlinks=false,
+    linkcolor=black,
+    filecolor=magenta,      
+    urlcolor=cyan,
+    pdftitle={Отчет},
 }
 
 % Полуторный межстрочный
@@ -35,41 +60,41 @@
 \setlength{\parindent}{1.25cm}
 
 \newcommand{\maketitlepage}[1]{
-\begin{titlepage}
-\thispagestyle{empty}
+  \begin{titlepage}
+  \thispagestyle{empty}
 
-% Верхняя часть - по центру
-\begin{center}
-\LARGE Уральский федеральный университет
-\end{center}
+  % Верхняя часть - по центру
+  \begin{center}
+  \LARGE Уральский федеральный университет
+  \end{center}
 
-% Пропускаем пространство до середины
-\vspace*{\stretch{2}}
+  % Пропускаем пространство до середины
+  \vspace*{\stretch{2}}
 
-% Средняя часть - по центру
-\begin{center}
-\bfseries\Huge Отчет по \\
-\bfseries\Huge Лабораторной работе №#1
-\end{center}
+  % Средняя часть - по центру
+  \begin{center}
+  \bfseries\Huge Отчет по \\
+  \bfseries\Huge Лабораторной работе №#1
+  \end{center}
 
-% Пропускаем немного
-\vspace*{\stretch{3}}
+  % Пропускаем немного
+  \vspace*{\stretch{3}}
 
-% Информация о студенте - выравнивание по левому краю
-\begin{flushleft}
-\large
-\textbf{Студент:} Воробьев Михаил Сергеевич, \\
-\textbf{Группа:} РИЗ-150916у
-\end{flushleft}
+  % Информация о студенте - выравнивание по левому краю
+  \begin{flushleft}
+  \large
+  \textbf{Студент:} Воробьев Михаил Сергеевич, \\
+  \textbf{Группа:} РИЗ-150916у
+  \end{flushleft}
 
-% Пропускаем до низа
-\vfill
+  % Пропускаем до низа
+  \vfill
 
-% Нижняя часть - по центру
-\begin{center}
-\large Екатеринбург, \\
-\large 2026 год
-\end{center}
+  % Нижняя часть - по центру
+  \begin{center}
+  \large Екатеринбург, \\
+  \large 2026 год
+  \end{center}
 
-\end{titlepage}
+  \end{titlepage}
 }
