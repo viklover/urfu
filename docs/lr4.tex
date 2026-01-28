@@ -1,0 +1,301 @@
+\documentclass[12pt,a4paper]{extarticle}
+\input{configs/title.tex}
+\usepackage{listings}
+\usepackage{xcolor}
+
+\lstset{
+    basicstyle=\ttfamily\small,
+    keywordstyle=\color{blue},
+    commentstyle=\color{gray},
+    stringstyle=\color{red},
+    frame=single,
+    breaklines=true,
+    showstringspaces=false
+}
+
+\begin{document}
+
+\maketitlepage{4}
+
+% Оглавление
+\tableofcontents
+\newpage
+
+% Разделы
+\section{Цель работы}
+\normalfont Освоить работу с двумерными массивами в языке Java: создание, заполнение, вывод, транспонирование и модификацию матриц.
+
+\section{Описание задачи}
+
+Реализовать 7 программ в пакете lr4, демонстрирующих работу с вложенными циклами и двумерными массивами.
+
+\begin{enumerate}
+    \item Вывод прямоугольника 23$\times$11 с помощью вложенных циклов
+    \item Вывод прямоугольного треугольника
+    \item Двумерный массив, заполненный цифрами 2
+    \item Двумерный массив в форме прямоугольного треугольника
+    \item Транспонирование массива
+    \item Удаление случайной строки и столбца из массива
+    \item Заполнение массива «змейкой» по периметру
+\end{enumerate}
+
+\section{Ход выполнения}
+
+\subsection{Задание 1: Прямоугольник}
+
+Программа выводит прямоугольник размером 23$\times$11 символов с помощью вложенных циклов. Внешний цикл перебирает строки, внутренний — столбцы.
+
+\begin{lstlisting}[language=Java]
+package lr4;
+
+public class Task1 {
+    public static void main(String[] args) {
+        int width = 23;
+        int height = 11;
+        for (int i = 0; i < height; i++) {
+            for (int j = 0; j < width; j++) {
+                System.out.print("*");
+            }
+            System.out.println();
+        }
+    }
+}
+\end{lstlisting}
+
+\subsection{Задание 2: Прямоугольный треугольник}
+
+Программа выводит прямоугольный треугольник. В каждой строке количество символов равно номеру строки.
+
+\begin{lstlisting}[language=Java]
+package lr4;
+
+public class Task2 {
+    public static void main(String[] args) {
+        int size = 10;
+        for (int i = 1; i <= size; i++) {
+            for (int j = 0; j < i; j++) {
+                System.out.print("*");
+            }
+            System.out.println();
+        }
+    }
+}
+\end{lstlisting}
+
+\subsection{Задание 3: Массив из двоек}
+
+Программа создаёт двумерный массив, заполняет его цифрами 2 и выводит в виде прямоугольника.
+
+\begin{lstlisting}[language=Java]
+package lr4;
+
+public class Task3 {
+    public static void main(String[] args) {
+        int rows = 5;
+        int cols = 8;
+        int[][] arr = new int[rows][cols];
+        for (int i = 0; i < rows; i++) {
+            for (int j = 0; j < cols; j++) {
+                arr[i][j] = 2;
+            }
+        }
+        System.out.println("Rectangle of 2s:");
+        for (int i = 0; i < rows; i++) {
+            for (int j = 0; j < cols; j++) {
+                System.out.print(arr[i][j] + " ");
+            }
+            System.out.println();
+        }
+    }
+}
+\end{lstlisting}
+
+\subsection{Задание 4: Треугольный массив чисел}
+
+Программа создаёт ступенчатый (jagged) массив в форме прямоугольного треугольника. Каждая строка имеет длину, равную номеру строки плюс один.
+
+\begin{lstlisting}[language=Java]
+package lr4;
+
+public class Task4 {
+    public static void main(String[] args) {
+        int size = 5;
+        int[][] arr = new int[size][];
+        int num = 1;
+        for (int i = 0; i < size; i++) {
+            arr[i] = new int[i + 1];
+            for (int j = 0; j <= i; j++) {
+                arr[i][j] = num++;
+            }
+        }
+        System.out.println("Right triangle of numbers:");
+        for (int i = 0; i < size; i++) {
+            for (int j = 0; j < arr[i].length; j++) {
+                System.out.print(arr[i][j] + " ");
+            }
+            System.out.println();
+        }
+    }
+}
+\end{lstlisting}
+
+\subsection{Задание 5: Транспонирование массива}
+
+Программа создаёт массив 3$\times$5, заполняет случайными числами и транспонирует его в массив 5$\times$3. При транспонировании элемент [i][j] становится элементом [j][i].
+
+\begin{lstlisting}[language=Java]
+package lr4;
+
+import java.util.Random;
+
+public class Task5 {
+    public static void main(String[] args) {
+        int rows = 3;
+        int cols = 5;
+        int[][] arr = new int[rows][cols];
+        Random rand = new Random();
+        for (int i = 0; i < rows; i++) {
+            for (int j = 0; j < cols; j++) {
+                arr[i][j] = rand.nextInt(10);
+            }
+        }
+        System.out.println("Original array " + rows + "x" + cols + ":");
+        for (int i = 0; i < rows; i++) {
+            for (int j = 0; j < cols; j++) {
+                System.out.print(arr[i][j] + " ");
+            }
+            System.out.println();
+        }
+        int[][] transposed = new int[cols][rows];
+        for (int i = 0; i < rows; i++) {
+            for (int j = 0; j < cols; j++) {
+                transposed[j][i] = arr[i][j];
+            }
+        }
+        System.out.println("Transposed array " + cols + "x" + rows + ":");
+        for (int i = 0; i < cols; i++) {
+            for (int j = 0; j < rows; j++) {
+                System.out.print(transposed[i][j] + " ");
+            }
+            System.out.println();
+        }
+    }
+}
+\end{lstlisting}
+
+\subsection{Задание 6: Удаление строки и столбца}
+
+Программа создаёт массив, затем удаляет из него случайную строку и столбец, формируя новый массив меньшего размера.
+
+\begin{lstlisting}[language=Java]
+package lr4;
+
+import java.util.Random;
+
+public class Task6 {
+    public static void main(String[] args) {
+        int rows = 4;
+        int cols = 5;
+        int[][] arr = new int[rows][cols];
+        int num = 1;
+        for (int i = 0; i < rows; i++) {
+            for (int j = 0; j < cols; j++) {
+                arr[i][j] = num++;
+            }
+        }
+        System.out.println("Original array:");
+        for (int i = 0; i < rows; i++) {
+            for (int j = 0; j < cols; j++) {
+                System.out.print(arr[i][j] + "\t");
+            }
+            System.out.println();
+        }
+        Random rand = new Random();
+        int delRow = rand.nextInt(rows);
+        int delCol = rand.nextInt(cols);
+        System.out.println("Deleting row " + delRow
+            + " and column " + delCol);
+        int[][] result = new int[rows - 1][cols - 1];
+        int newI = 0;
+        for (int i = 0; i < rows; i++) {
+            if (i == delRow) continue;
+            int newJ = 0;
+            for (int j = 0; j < cols; j++) {
+                if (j == delCol) continue;
+                result[newI][newJ] = arr[i][j];
+                newJ++;
+            }
+            newI++;
+        }
+        System.out.println("Result array:");
+        for (int i = 0; i < rows - 1; i++) {
+            for (int j = 0; j < cols - 1; j++) {
+                System.out.print(result[i][j] + "\t");
+            }
+            System.out.println();
+        }
+    }
+}
+\end{lstlisting}
+
+\subsection{Задание 7: Заполнение змейкой}
+
+Программа заполняет двумерный массив по спирали (змейкой по периметру): первая строка слева направо, последний столбец сверху вниз, последняя строка справа налево, первый столбец снизу вверх, и так далее к центру.
+
+\begin{lstlisting}[language=Java]
+package lr4;
+
+public class Task7 {
+    public static void main(String[] args) {
+        int rows = 4;
+        int cols = 5;
+        int[][] arr = new int[rows][cols];
+        int num = 1;
+        int top = 0, bottom = rows - 1;
+        int left = 0, right = cols - 1;
+        while (top <= bottom && left <= right) {
+            for (int j = left; j <= right; j++) {
+                arr[top][j] = num++;
+            }
+            top++;
+            for (int i = top; i <= bottom; i++) {
+                arr[i][right] = num++;
+            }
+            right--;
+            if (top <= bottom) {
+                for (int j = right; j >= left; j--) {
+                    arr[bottom][j] = num++;
+                }
+                bottom--;
+            }
+            if (left <= right) {
+                for (int i = bottom; i >= top; i--) {
+                    arr[i][left] = num++;
+                }
+                left++;
+            }
+        }
+        System.out.println("Spiral fill:");
+        for (int i = 0; i < rows; i++) {
+            for (int j = 0; j < cols; j++) {
+                System.out.print(arr[i][j] + "\t");
+            }
+            System.out.println();
+        }
+    }
+}
+\end{lstlisting}
+
+\section{Ссылка на GitHub-репозиторий}
+
+Исходный код лабораторной работы доступен по ссылке:
+
+\url{https://github.com/viklover/urfu}
+
+Файлы классов расположены в директории \texttt{src/lr4/}.
+
+\section{Вывод}
+
+В ходе лабораторной работы были реализованы программы, демонстрирующие работу с двумерными массивами. Освоены навыки создания и вывода матриц, работы со ступенчатыми массивами, транспонирования, удаления элементов и заполнения по спирали. Цель работы достигнута.
+
+\end{document}
