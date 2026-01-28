@@ -1,14 +1,12 @@
 \documentclass[a4paper,12pt]{article}
-\usepackage[utf8]{inputenc}
-\usepackage[T2A]{fontenc}
-\usepackage{geometry}
 \usepackage{setspace}
 \usepackage{indentfirst}
 \usepackage{fancyhdr}
 \usepackage{lastpage}
-\usepackage{fontspec} 
-\usepackage{times}
+\usepackage{fontspec}
+\usepackage{geometry}
 
+% Шрифт
 \setmainfont{Times New Roman}[
     Path = ./fonts/,
     UprightFont = times.ttf,
@@ -17,13 +15,18 @@
     BoldItalicFont = timesbi.ttf
 ]
 
-% Поля как в Word
-\geometry{
-    left=3cm,
-    right=2cm,
-    top=2cm,
-    bottom=2cm,
-    headheight=15pt
+% Поля документа
+\geometry{left=2cm}% левое поле
+\geometry{right=1.5cm}% правое поле
+\geometry{top=1cm}% верхнее поле
+\geometry{bottom=2cm}% нижнее поле
+
+\newcommand{\imgh}[3] {
+    \begin{figure}[h]
+    \center{\includegraphics[width=#1]{#2}}
+    \caption{#3}
+    \label{ris:#2}
+    \end{figure}
 }
 
 % Полуторный межстрочный
@@ -35,10 +38,49 @@
 % Колонтитулы
 \pagestyle{fancy}
 \fancyhf{}
-\fancyhead[C]{\small Заголовок документа}
+% \fancyhead[C]{\small Заголовок документа}
 \fancyfoot[C]{\small Страница \thepage\ из \pageref{LastPage}}
 
+% \graphicspath{{images/}}
+
+% чтобы underline переносился...
+\include{pages/title}
+\usepackage[normalem]{ulem}
+
+% переменные title
+
+\newcommand{\titlepageChair}{ИВТиИБ}
+\newcommand{\titlepageLabNo}{1}
+\newcommand{\titlepageSubject}{Цифровая обработка сигналов}
+\newcommand{\titlepageLRArticul}{230100.68.11.000 О}
+
+\newcommand{\titlepageLabTitle}{
+  \parbox{14cm}{
+    \center
+    \uline{Работа в среде Matlab. Структура Signal Processing Toolbox. Генерация сигналов. Свертка.}
+  }
+}
+
+\newcommand{\titlepageGroup}{8ИВТ-41}
+\newcommand{\titlepageStudent}{А.Ю. Смолянинов}
+\newcommand{\titlepageTeacherPosition}{доцент, к.т.н.}
+\newcommand{\titlepageTeacher}{А.C. Шатохин}
+
 \begin{document}
+
+
+\newbox{\lbox}
+\savebox{\lbox}{\hbox{Пупкин Иван Иванович}}
+\newlength{\maxl}
+\setlength{\maxl}{\wd\lbox}
+\hfill\parbox{11cm} {
+    \hspace*{5cm}\hspace*{-5cm}Студент:\hfill\hbox to\maxl{Тест Пользователь\hfill}\\
+    \hspace*{5cm}\hspace*{-5cm}Преподаватель:\hfill\hbox to\maxl{Пупкин Иван Иванович}\\
+    \\
+    \hspace*{5cm}\hspace*{-5cm}Группа:\hfill\hbox to\maxl{NNN}\\
+}
+\newpage
+\section{Постановка задачи}
 
 \begin{center}
     \LARGE\textbf{НАЗВАНИЕ ДОКУМЕНТА}
